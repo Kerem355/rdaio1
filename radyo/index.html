@@ -1,0 +1,3747 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radyo Dinle - Türkiye'nin En İyi Radyoları</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Favicon Kontrolleri -->
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #110136 0%, #210154 100%);
+            color: #e0e0e0;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: rgba(30, 30, 30, 0.8);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-grow: 1;
+        }
+        
+        .header-content h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .header-content h1 i {
+            color: #f1c40f;
+        }
+        
+        .header-content p {
+            font-size: 1rem;
+            opacity: 0.9;
+            color: #3498db;
+            font-style: italic;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .auth-btn {
+            padding: 8px 15px;
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .auth-btn:hover {
+            background-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+        
+        .auth-btn.logout {
+            background-color: rgba(231, 76, 60, 0.8);
+        }
+        
+        .auth-btn.logout:hover {
+            background-color: rgba(192, 57, 43, 0.8);
+        }
+        
+        .auth-btn.register {
+            background-color: rgba(46, 204, 113, 0.8);
+        }
+        
+        .auth-btn.register:hover {
+            background-color: rgba(39, 174, 96, 0.8);
+        }
+        
+        .country-select {
+            background: rgba(30, 30, 30, 0.8);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 8px 15px;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+        
+        .country-select option {
+            background: #2c3e50;
+            color: white;
+        }
+        
+        .content-wrapper {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        aside {
+            flex: 1;
+            background: rgba(30, 30, 30, 0.6);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            min-width: 280px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 15px;
+        }
+        
+        .user-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid #3498db;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .user-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+        
+        .avatar-upload {
+            display: none;
+        }
+        
+        .user-name {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+        
+        .user-city {
+            font-size: 0.9rem;
+            color: #bdc3c7;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .user-stats {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin: 15px 0;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            padding: 0 10px;
+        }
+        
+        .stat-value {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: #3498db;
+            margin-bottom: 3px;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .nav-horizontal {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-horizontal a {
+            padding: 10px 15px;
+            color: #bdc3c7;
+            text-decoration: none;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .nav-horizontal a.active, 
+        .nav-horizontal a:hover {
+            border-bottom: 3px solid #3498db;
+            color: #3498db;
+        }
+        
+        .tab-content {
+            display: none;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .history-list, .favorites-list {
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        
+        .history-item, .favorite-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+        
+        .history-item:hover, .favorite-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateX(5px);
+        }
+        
+        .history-logo, .favorite-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            margin-right: 12px;
+            object-fit: cover;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+        }
+        
+        .history-info, .favorite-info {
+            flex-grow: 1;
+        }
+        
+        .history-name, .favorite-name {
+            font-weight: bold;
+            font-size: 0.95rem;
+            color: #fff;
+        }
+        
+        .history-category, .favorite-category {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+        }
+        
+        .favorite-btn {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 5px;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        
+        .favorite-btn:hover {
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+        
+        .settings-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+        
+        .form-group input {
+            padding: 12px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+        }
+        
+        .form-group input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            outline: none;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+        
+        .password-container {
+            position: relative;
+        }
+        
+        .save-btn {
+            padding: 12px 20px;
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            align-self: flex-start;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+        
+        .save-btn:hover {
+            background: linear-gradient(to right, #2980b9, #3498db);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        }
+        
+        main {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .sub-section {
+            background: rgba(30, 30, 30, 0.6);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sub-section h3 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .sub-section h3 i {
+            color: #3498db;
+        }
+        
+        .player-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .player-section {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+        }
+        
+        .modern-player {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            border-radius: 12px;
+            color: white;
+        }
+        
+        .modern-player-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        .modern-player-info {
+            flex-grow: 1;
+        }
+        
+        .modern-player-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .modern-player-artist {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+        
+        .player-stats {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .listener-count {
+            font-size: 0.85rem;
+            color: #bdc3c7;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .modern-player-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .modern-player-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modern-player-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+        
+        .modern-player-btn.play {
+            background: white;
+            color: #3498db;
+        }
+        
+        .modern-player-btn.play:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+        
+        .modern-player-progress {
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
+            margin-top: 10px;
+            position: relative;
+        }
+        
+        .modern-player-progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 30%;
+            background: white;
+            border-radius: 2px;
+        }
+        
+        .modern-player-time {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+        
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 10px;
+        }
+        
+        .volume-icon {
+            color: white;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .volume-control {
+            width: 80px;
+            height: 4px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #ddd;
+            border-radius: 2px;
+            outline: none;
+        }
+        
+        .volume-control::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .player-social-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        
+        .player-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .player-social-media {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .player-action-btn, .player-social-btn {
+            background: none;
+            border: none;
+            color: #3498db;
+            font-size: 18px;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        
+        .player-action-btn:hover, .player-social-btn:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+            transform: scale(1.1);
+        }
+        
+        .player-action-btn.like {
+            color: #e74c3c;
+        }
+        
+        .player-action-btn.like.active {
+            color: #e74c3c;
+        }
+        
+        .player-action-btn.favorite {
+            color: #f1c40f;
+        }
+        
+        .player-action-btn.favorite.active {
+            color: #f1c40f;
+        }
+        
+        .player-social-btn.facebook {
+            color: #3b5998;
+        }
+        
+        .player-social-btn.twitter {
+            color: #1da1f2;
+        }
+        
+        .player-social-btn.youtube {
+            color: #ff0000;
+        }
+        
+        .player-social-btn.instagram {
+            color: #e1306c;
+        }
+        
+        .player-social-btn.website {
+            color: #3498db;
+        }
+        
+        .chat-container {
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .message {
+            margin-bottom: 12px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            background-color: rgba(30, 30, 30, 0.6);
+            font-size: 0.9rem;
+            animation: fadeIn 0.3s ease-out;
+            color: #e0e0e0;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message-sender {
+            font-weight: bold;
+            color: #3498db;
+        }
+        
+        .chat-input {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .chat-input input {
+            flex-grow: 1;
+            padding: 12px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            outline: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+        }
+        
+        .chat-input input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            outline: none;
+        }
+        
+        .chat-input button {
+            padding: 0 20px;
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .chat-input button:hover {
+            background: linear-gradient(to right, #2980b9, #3498db);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+        }
+        
+        .recommendations {
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4));
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+        
+        .recommendations-title {
+            font-size: 1rem;
+            margin-bottom: 12px;
+            color: #fff;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .recommendations-title i {
+            color: #3498db;
+        }
+        
+        .recommendations-list {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: #3498db #f1f1f1;
+        }
+        
+        .recommendations-list::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .recommendations-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        
+        .recommendations-list::-webkit-scrollbar-thumb {
+            background-color: #3498db;
+            border-radius: 3px;
+        }
+        
+        .recommended-station {
+            min-width: 80px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 5px;
+            border-radius: 8px;
+        }
+        
+        .recommended-station:hover {
+            transform: translateY(-5px);
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        
+        .recommended-logo {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+        }
+        
+        .recommended-name {
+            font-size: 0.8rem;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #fff;
+        }
+        
+        .stations-container {
+            background: rgba(30, 30, 30, 0.6);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            overflow-x: auto;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stations-header {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .stations-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .stations-title {
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        
+        .search-container {
+            position: relative;
+            width: 100%;
+        }
+        
+        .search-container input {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            outline: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+        }
+        
+        .search-container input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            outline: none;
+        }
+        
+        .search-container i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #e0e0e0;
+        }
+        
+        .filter-btn.active {
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+        }
+        
+        .filter-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .filter-btn.active:hover {
+            background: linear-gradient(to right, #2980b9, #3498db);
+        }
+        
+        .filter-sections {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-section {
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .filter-section h4 {
+            margin-bottom: 5px;
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .filter-select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            background: rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            height: 36px;
+            color: #fff;
+        }
+        
+        .filter-select:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            outline: none;
+        }
+        
+        .stations-list {
+            display: flex;
+            gap: 15px;
+            padding-bottom: 10px;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+        
+        .radio-station {
+            width: 110px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 15px;
+            border-radius: 12px;
+            position: relative;
+            background: rgba(0, 0, 0, 0.3);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+        
+        .radio-station:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            background: rgba(0, 0, 0, 0.4);
+        }
+        
+        .radio-logo-container {
+            position: relative;
+            margin-bottom: 10px;
+        }
+        
+        .radio-logo {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+        }
+        
+        .radio-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #fff;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .radio-category {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+        
+        .radio-slogan {
+            font-size: 0.7rem;
+            color: #3498db;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        
+        .favorite-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 22px;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+        }
+        
+        .favorite-icon:hover {
+            transform: scale(1.1);
+            background: rgba(127, 191, 255, 0.2);
+        }
+        
+        .favorite-icon.active {
+            color: #f1c40f;
+        }
+        
+        .active-radio {
+            background-color: rgba(52, 152, 219, 0.2);
+            border: 2px solid #3498db;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .social-icon {
+            color: #3498db;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+        
+        .social-icon:hover {
+            color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .left-social-icons {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 100;
+        }
+        
+        .left-social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(30, 30, 30, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            color: #3498db;
+            font-size: 18px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .left-social-icon:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        }
+        
+        .left-social-icon.facebook {
+            color: #3b5998;
+        }
+        
+        .left-social-icon.twitter {
+            color: #1da1f2;
+        }
+        
+        .left-social-icon.instagram {
+            color: #e1306c;
+        }
+        
+        .left-social-icon.whatsapp {
+            color: #25d366;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 30px;
+            color: #7f8c8d;
+            width: 100%;
+            font-size: 0.95rem;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(52, 152, 219, 0.3);
+            border-radius: 50%;
+            border-top-color: #3498db;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+        
+        @keyframes shake {
+            0% { transform: translateX(-2px); }
+            25% { transform: translateX(2px); }
+            50% { transform: translateX(-2px); }
+            75% { transform: translateX(2px); }
+            100% { transform: translateX(-2px); }
+        }
+        
+        @keyframes wave {
+            0% { transform: scale(0.5); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.3); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Pagination styles */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 5px;
+        }
+        
+        .page-btn {
+            padding: 8px 12px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            color: #e0e0e0;
+        }
+        
+        .page-btn.active {
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+        }
+        
+        .page-btn:hover:not(.active) {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .page-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Sayfalama butonları için yeni stil */
+        .page-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 15px;
+            padding: 10px 0;
+        }
+        
+        .page-button {
+            padding: 8px 12px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            color: #e0e0e0;
+            min-width: 36px;
+            text-align: center;
+        }
+        
+        .page-button.active {
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+        }
+        
+        .page-button:hover:not(.active) {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .page-button.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background-color: #2c3e50;
+            padding: 30px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transform: translateY(-20px);
+            opacity: 0;
+            animation: modalFadeIn 0.3s forwards;
+            color: #fff;
+        }
+        
+        @keyframes modalFadeIn {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            color: #fff;
+            font-weight: bold;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #7f8c8d;
+            transition: all 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .close-btn:hover {
+            color: #e74c3c;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .register-form, .login-form, .reset-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .form-row label {
+            font-weight: 600;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+        
+        .form-row input {
+            padding: 12px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+        }
+        
+        .form-row input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            outline: none;
+        }
+        
+        .submit-btn {
+            padding: 14px;
+            background: linear-gradient(to right, #2ecc71, #27ae60);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        
+        .submit-btn:hover {
+            background: linear-gradient(to right, #27ae60, #2ecc71);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        }
+        
+        .login-link, .reset-link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #bdc3c7;
+        }
+        
+        .login-link a, .reset-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .login-link a:hover, .reset-link a:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+
+        /* Share modal */
+        .share-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .share-option {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .share-option:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .share-option i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        .share-option.facebook i {
+            color: #3b5998;
+        }
+        
+        .share-option.twitter i {
+            color: #1da1f2;
+        }
+        
+        .share-option.whatsapp i {
+            color: #25d366;
+        }
+
+        /* Radio info and contact container */
+        .radio-details-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .radio-info-container, .radio-contact-container {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(30, 30, 30, 0.6);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .radio-info-title, .radio-contact-title {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .radio-info-title i, .radio-contact-title i {
+            color: #3498db;
+        }
+        
+        .radio-info-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .radio-info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .radio-info-label {
+            font-weight: bold;
+            min-width: 100px;
+            color: #3498db;
+        }
+        
+        .radio-info-value {
+            flex-grow: 1;
+        }
+        
+        .radio-social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .radio-social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #3498db;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+        
+        .radio-social-icon:hover {
+            transform: translateY(-3px);
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        
+        .radio-social-icon.facebook {
+            color: #3b5998;
+        }
+        
+        .radio-social-icon.twitter {
+            color: #1da1f2;
+        }
+        
+        .radio-social-icon.instagram {
+            color: #e1306c;
+        }
+        
+        .radio-social-icon.youtube {
+            color: #ff0000;
+        }
+        
+        .radio-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .form-group-contact {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group-contact label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+        
+        .form-group-contact input,
+        .form-group-contact textarea,
+        .form-group-contact select {
+            padding: 12px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+        }
+        
+        .form-group-contact textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-group-contact input:focus,
+        .form-group-contact textarea:focus,
+        .form-group-contact select:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            outline: none;
+        }
+        
+        .send-message-btn {
+            padding: 12px 20px;
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+        
+        .send-message-btn:hover {
+            background: linear-gradient(to right, #2980b9, #3498db);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Night mode button */
+        .night-mode-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            z-index: 100;
+            transition: all 0.3s;
+        }
+        
+        .night-mode-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        }
+
+        /* Night mode styles */
+        body.night-mode {
+            background: linear-gradient(135deg, #000000 0%, #110136 100%);
+            color: #e0e0e0;
+        }
+        
+        body.night-mode .sub-section,
+        body.night-mode aside,
+        body.night-mode .stations-container,
+        body.night-mode .radio-info-container,
+        body.night-mode .radio-contact-container,
+        body.night-mode .player-section,
+        body.night-mode .chat-messages,
+        body.night-mode .recommendations,
+        body.night-mode header {
+            background: rgba(10, 10, 20, 0.8);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        body.night-mode .filter-btn,
+        body.night-mode .page-btn {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        body.night-mode .filter-btn.active {
+            background: linear-gradient(to right, #2c3e50, #3498db);
+        }
+        
+        body.night-mode .player-action-btn,
+        body.night-mode .player-social-btn {
+            color: #7f8c8d;
+        }
+        
+        body.night-mode .player-action-btn:hover,
+        body.night-mode .player-social-btn:hover {
+            color: #3498db;
+        }
+
+        /* Footer container */
+        .footer-container {
+            background: rgba(30, 30, 30, 0.6);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-container p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+            color: #bdc3c7;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .content-wrapper {
+                flex-direction: column;
+            }
+            
+            aside {
+                min-width: auto;
+            }
+            
+            .radio-station {
+                width: calc(33.333% - 15px);
+            }
+            
+            .left-social-icons {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .auth-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .radio-station {
+                width: calc(50% - 15px);
+            }
+            
+            .filter-sections {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .player-social-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .player-social-media {
+                justify-content: flex-start;
+            }
+            
+            .radio-details-container {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .radio-station {
+                width: 100%;
+            }
+            
+            .modern-player {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .modern-player-controls {
+                justify-content: center;
+            }
+            
+            .pagination {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* Equalizer styles */
+        .equalizer-container {
+            display: flex;
+            align-items: flex-end;
+            gap: 5px;
+            height: 40px;
+            margin-top: 10px;
+        }
+        
+        .equalizer-bar {
+            width: 4px;
+            background: #3498db;
+            border-radius: 2px;
+            transition: height 0.2s ease;
+        }
+        
+        .equalizer-bar:nth-child(1) { height: 10px; animation: equalize 1.2s infinite ease-in-out; }
+        .equalizer-bar:nth-child(2) { height: 15px; animation: equalize 1.4s infinite ease-in-out; }
+        .equalizer-bar:nth-child(3) { height: 20px; animation: equalize 1.1s infinite ease-in-out; }
+        .equalizer-bar:nth-child(4) { height: 25px; animation: equalize 1.3s infinite ease-in-out; }
+        .equalizer-bar:nth-child(5) { height: 15px; animation: equalize 1.5s infinite ease-in-out; }
+        .equalizer-bar:nth-child(6) { height: 10px; animation: equalize 1.2s infinite ease-in-out; }
+        
+        @keyframes equalize {
+            0%, 100% { height: 10px; }
+            50% { height: 25px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Left side social media icons -->
+    <div class="left-social-icons">
+        <a href="#" class="left-social-icon facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="left-social-icon twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="left-social-icon instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="left-social-icon whatsapp"><i class="fab fa-whatsapp"></i></a>
+    </div>
+
+    <!-- Night mode toggle button -->
+    <button class="night-mode-btn" id="nightModeBtn"><i class="fas fa-moon"></i></button>
+
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>
+                    <img src="/images/Logo.png" alt="Radyo Logo" style="height: 40px; vertical-align: middle;">
+                    Radyo Dinle
+                </h1>
+                <p>Türkiye'nin En İyi Radyoları</p>
+            </div>
+            <div class="auth-buttons">
+                <button class="auth-btn login-btn">Giriş Yap</button>
+                <button class="auth-btn register-btn register">Kayıt Ol</button>
+                <button class="auth-btn logout-btn" style="display: none;">Çıkış Yap</button>
+                <select class="country-select" id="countrySelect">
+                    <option value="tr" data-icon="flag-icon flag-icon-tr" selected>Türkiye</option>
+                    <option value="us" data-icon="flag-icon flag-icon-us">ABD</option>
+                    <option value="de" data-icon="flag-icon flag-icon-de">Almanya</option>
+                    <option value="fr" data-icon="flag-icon flag-icon-fr">Fransa</option>
+                    <option value="gb" data-icon="flag-icon flag-icon-gb">İngiltere</option>
+                </select>
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            <aside>
+                <div class="user-profile">
+                    <input type="file" id="avatarUpload" class="avatar-upload" accept="image/*">
+                    <img src="https://via.placeholder.com/100" alt="Kullanıcı Avatarı" class="user-avatar" id="userAvatar">
+                    <div class="user-name">Misafir Kullanıcı</div>
+                    <div class="user-city">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span class="city-name">Şehir Seçilmedi</span>
+                    </div>
+                    
+                    <div class="user-stats">
+                        <div class="stat-item">
+                            <span class="stat-value" id="historyCount">0</span>
+                            <span class="stat-label">Dinlenen</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="favoritesCount">0</span>
+                            <span class="stat-label">Favori</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="likesCount">0</span>
+                            <span class="stat-label">Beğeni</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <nav class="nav-horizontal">
+                    <a href="#" class="tab-link active" data-tab="favorites">Favoriler</a>
+                    <a href="#" class="tab-link" data-tab="history">Geçmiş</a>
+                    <a href="#" class="tab-link" data-tab="settings">Ayarlar</a>
+                </nav>
+                
+                <div class="tab-content" id="history-tab">
+                    <div class="history-list" id="historyList">
+                        <div class="empty-message">Henüz dinleme geçmişiniz yok</div>
+                    </div>
+                </div>
+                
+                <div class="tab-content active" id="favorites-tab">
+                    <div class="favorites-list" id="favoritesList">
+                        <div class="empty-message">Henüz favori radyonuz yok</div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="settings-tab">
+                    <form class="settings-form" id="profileForm">
+                        <div class="form-group">
+                            <label for="profileName">Kullanıcı Adı</label>
+                            <input type="text" id="profileName" placeholder="Kullanıcı adınız">
+                        </div>
+                        <div class="form-group">
+                            <label for="profileCity">Şehir</label>
+                            <input type="text" id="profileCity" placeholder="Yaşadığınız şehir">
+                        </div>
+                        <div class="form-group">
+                            <label for="profileEmail">E-posta</label>
+                            <input type="email" id="profileEmail" placeholder="E-posta adresiniz">
+                        </div>
+                        <div class="form-group password-container">
+                            <label for="currentPassword">Mevcut Şifre</label>
+                            <input type="password" id="currentPassword" placeholder="Mevcut şifreniz">
+                            <i class="fas fa-eye password-toggle" id="toggleCurrentPassword"></i>
+                        </div>
+                        <div class="form-group password-container">
+                            <label for="newPassword">Yeni Şifre</label>
+                            <input type="password" id="newPassword" placeholder="Yeni şifreniz">
+                            <i class="fas fa-eye password-toggle" id="toggleNewPassword"></i>
+                        </div>
+                        <div class="form-group password-container">
+                            <label for="confirmPassword">Şifre Tekrar</label>
+                            <input type="password" id="confirmPassword" placeholder="Yeni şifrenizi tekrar girin">
+                            <i class="fas fa-eye password-toggle" id="toggleConfirmPassword"></i>
+                        </div>
+                        <button type="submit" class="save-btn">Kaydet</button>
+                    </form>
+                </div>
+            </aside>
+
+            <main>
+                <div class="sub-section">
+                    <h3><i class="fas fa-play-circle"></i> Şu An <span id="currentRadioName">Radyo</span> Dinliyorsunuz </h3>
+                    
+                    <div class="player-container">
+                        <div class="player-section modern-player">
+                            <img id="modernPlayerLogo" src="https://via.placeholder.com/80" alt="Radyo Logo" class="modern-player-logo">
+                            
+                            <div class="modern-player-info">
+                                <div class="modern-player-title" id="modernPlayerTitle">Radyo Seçilmedi</div>
+                                <div class="modern-player-artist" id="modernPlayerArtist">Sanatçı - Şarkı</div>
+                                
+                                <div class="player-stats">
+                                    <span class="listener-count"><i class="fas fa-headphones"></i> <span id="listenerCount">1,245</span> dinleyici</span>
+                                    <span class="listener-count"><i class="fas fa-heart"></i> <span id="likeCount">0</span> beğeni</span>
+                                </div>
+                                <!-- Equalizer -->
+                                <div class="equalizer-container" id="equalizer">
+                                    <div class="equalizer-bar"></div>
+                                    <div class="equalizer-bar"></div>
+                                    <div class="equalizer-bar"></div>
+                                    <div class="equalizer-bar"></div>
+                                    <div class="equalizer-bar"></div>
+                                    <div class="equalizer-bar"></div>
+                                </div>
+                                <div class="modern-player-controls">
+                                    <button class="modern-player-btn" id="modernPrevBtn"><i class="fas fa-step-backward"></i></button>
+                                    <button class="modern-player-btn play" id="modernPlayBtn"><i class="fas fa-play"></i></button>
+                                    <button class="modern-player-btn" id="modernNextBtn"><i class="fas fa-step-forward"></i></button>
+                                    <div class="volume-container">
+                                        <i class="fas fa-volume-up volume-icon"></i>
+                                        <input type="range" min="0" max="100" value="80" class="volume-control" id="volumeControl">
+                                    </div>
+                                </div>
+                                
+                                
+                                <div class="player-social-container">
+                                    <div class="player-actions">
+                                        <button class="player-action-btn like" id="likeBtn">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                        <button class="player-action-btn favorite" id="favoriteBtn">
+                                            <i class="far fa-star"></i>
+                                        </button>
+                                        <button class="player-action-btn" id="shareBtn">
+                                            <i class="fas fa-share-alt"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="player-social-media">
+                                        <button class="player-social-btn facebook" id="facebookBtn">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </button>
+                                        <button class="player-social-btn twitter" id="twitterBtn">
+                                            <i class="fab fa-twitter"></i>
+                                        </button>
+                                        <button class="player-social-btn instagram" id="instagramBtn">
+                                            <i class="fab fa-instagram"></i>
+                                        </button>
+                                        <button class="player-social-btn youtube" id="youtubeBtn">
+                                            <i class="fab fa-youtube"></i>
+                                        </button>
+                                        <button class="player-social-btn website" id="websiteBtn">
+                                            <i class="fas fa-globe"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <div id="loadingIndicator" style="display: none; margin-top: 10px; font-size: 0.9rem; color: #3498db;">
+                        <span class="loading"></span> Yükleniyor...
+                    </div>
+                </div>
+                
+                <div class="sub-section">
+                    <h3><i class="fas fa-comments"></i> Canlı Sohbet</h3>
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="message">
+                                <span class="message-sender">Moderatör:</span> Hoş geldiniz! Hangi radyoyu dinliyorsunuz?
+                            </div>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" placeholder="Mesajınızı yazın..." id="chatInput">
+                            <button id="sendBtn">Gönder</button>
+                        </div>
+                    </div>
+                    
+                    <div class="recommendations">
+                        <div class="recommendations-title"><i class="fas fa-thumbs-up"></i> Önerilen Radyolar</div>
+                        <div class="recommendations-list" id="recommendationsList">
+                            <!-- Önerilen radyolar buraya eklenecek -->
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <div class="stations-container">
+            <div class="stations-header">
+                <div class="stations-title-row">
+                    <h3 class="stations-title"><i class="fas fa-broadcast-tower"></i> Radyo İstasyonları</h3>
+                    <div class="pagination">
+                        <button class="page-btn" id="prevPageBtn"><i class="fas fa-chevron-left"></i></button>
+                        <span class="page-info" id="pageInfo">1</span>
+                        <button class="page-btn" id="nextPageBtn"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+                
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Radyo ara...">
+                </div>
+                
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">Tümü</button>
+                    <button class="filter-btn" data-filter="favorites">Favoriler</button>
+                    <button class="filter-btn" data-filter="popular">Popüler</button>
+                </div>
+                
+                <div class="filter-sections">
+                    <div class="filter-section">
+                        <h4>Kategoriler</h4>
+                        <select class="filter-select" id="categorySelect">
+                            <option value="all">Tüm Kategoriler</option>
+                            <!-- Will be populated by JavaScript -->
+                        </select>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h4>Şehirler</h4>
+                        <select class="filter-select" id="citySelect">
+                            <option value="all">Tüm Şehirler</option>
+                            <!-- Will be populated by JavaScript -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stations-list" id="stationsList">
+                <!-- Stations will be loaded here by JavaScript -->
+            </div>
+            <div id="noResults" class="no-results" style="display: none;">
+                <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                <div>Sonuç bulunamadı</div>
+            </div>
+            
+            <!-- Sayfalama butonları eklendi -->
+            <div class="page-buttons" id="pageButtons">
+                <button class="page-button" data-page="1">1</button>
+                <button class="page-button" data-page="2">2</button>
+                <button class="page-button" data-page="3">3</button>
+            </div>
+        </div>
+
+        <!-- Radio details and contact form container -->
+        <div class="radio-details-container">
+            <div class="radio-info-container">
+                <h3 class="radio-info-title"><i class="fas fa-info-circle"></i> Radyo Bilgileri</h3>
+                <div class="radio-info-content">
+                    <div class="radio-info-item">
+                        <span class="radio-info-label">Radyo Adı:</span>
+                        <span class="radio-info-value" id="radioInfoName">-</span>
+                    </div>
+                    <div class="radio-info-item">
+                        <span class="radio-info-label">Şehir:</span>
+                        <span class="radio-info-value" id="radioInfoCity">-</span>
+                    </div>
+                    <div class="radio-info-item">
+                        <span class="radio-info-label">Slogan:</span>
+                        <span class="radio-info-value" id="radioInfoSlogan">-</span>
+                    </div>
+                    <div class="radio-info-item">
+                        <span class="radio-info-label">Telefon:</span>
+                        <span class="radio-info-value" id="radioInfoPhone">-</span>
+                    </div>
+                    
+                    <div class="radio-social-icons">
+                        <a href="#" class="radio-social-icon facebook" id="radioSocialFacebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="radio-social-icon twitter" id="radioSocialTwitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="radio-social-icon instagram" id="radioSocialInstagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="radio-social-icon youtube" id="radioSocialYoutube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                    
+                    <img src="https://via.placeholder.com/600x200?text=Radyo+Görseli" alt="Radyo Görseli" class="radio-image" id="radioInfoImage">
+                </div>
+            </div>
+            
+            <div class="radio-contact-container">
+                <h3 class="radio-contact-title"><i class="fas fa-envelope"></i> İletişim Formu</h3>
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group-contact">
+                        <label for="contactName">Adınız</label>
+                        <input type="text" id="contactName" placeholder="Adınız ve soyadınız">
+                    </div>
+                    <div class="form-group-contact">
+                        <label for="contactEmail">E-posta</label>
+                        <input type="email" id="contactEmail" placeholder="E-posta adresiniz">
+                    </div>
+                    <div class="form-group-contact">
+                        <label for="contactSubject">Konu</label>
+                        <select id="contactSubject" class="filter-select">
+                            <option value="">Konu Seçiniz</option>
+                            <option value="öneri">Öneri</option>
+                            <option value="şikayet">Şikayet</option>
+                            <option value="reklam">Reklam</option>
+                            <option value="tekniksorun">Teknik Sorun</option>
+                            <option value="diger">Diğer</option>
+                        </select>
+                    </div>
+                    <div class="form-group-contact">
+                        <label for="contactMessage">Mesajınız</label>
+                        <textarea id="contactMessage" placeholder="Mesajınızı buraya yazın"></textarea>
+                    </div>
+                    <button type="submit" class="send-message-btn">Mesaj Gönder</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Footer container -->
+        <div class="footer-container">
+            <p>© 2025 canliradyodinle.fm | Tüm hakları saklıdır.</p>
+            <p>Sitemizdeki tüm radyo yayınları, ilgili radyoların resmi akışları üzerinden sağlanmaktadır.</p>
+        </div>
+
+        <!-- Register Modal -->
+        <div class="modal" id="registerModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Kayıt Ol</h3>
+                    <button class="close-btn">&times;</button>
+                </div>
+                <form class="register-form" id="registerForm">
+                    <div class="form-row">
+                        <label for="regName">Kullanıcı Adı</label>
+                        <input type="text" id="regName" placeholder="Kullanıcı adınız" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="regCity">Şehir</label>
+                        <input type="text" id="regCity" placeholder="Yaşadığınız şehir" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="regEmail">E-posta</label>
+                        <input type="email" id="regEmail" placeholder="E-posta adresiniz" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="regPassword">Şifre</label>
+                        <input type="password" id="regPassword" placeholder="Şifreniz" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="regPasswordConfirm">Şifre Tekrar</label>
+                        <input type="password" id="regPasswordConfirm" placeholder="Şifrenizi tekrar girin" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Kayıt Ol</button>
+                </form>
+                <div class="login-link">
+                    Zaten hesabınız var mı? <a href="#" id="showLogin">Giriş yap</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Modal -->
+        <div class="modal" id="loginModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Giriş Yap</h3>
+                    <button class="close-btn">&times;</button>
+                </div>
+                <form class="login-form" id="loginForm">
+                    <div class="form-row">
+                        <label for="loginEmail">E-posta</label>
+                        <input type="email" id="loginEmail" placeholder="E-posta adresiniz" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="loginPassword">Şifre</label>
+                        <input type="password" id="loginPassword" placeholder="Şifreniz" required>
+                    </div>
+                    <div class="reset-link">
+                        <a href="#" id="showReset">Şifremi Unuttum</a>
+                    </div>
+                    <button type="submit" class="submit-btn">Giriş Yap</button>
+                </form>
+                <div class="login-link">
+                    Hesabınız yok mu? <a href="#" id="showRegister">Kayıt ol</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reset Password Modal -->
+        <div class="modal" id="resetModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Şifremi Unuttum</h3>
+                    <button class="close-btn">&times;</button>
+                </div>
+                <form class="reset-form" id="resetForm">
+                    <div class="form-row">
+                        <label for="resetEmail">E-posta Adresiniz</label>
+                        <input type="email" id="resetEmail" placeholder="Kayıtlı e-posta adresiniz" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Şifre Sıfırlama Linki Gönder</button>
+                </form>
+                <div class="login-link">
+                    <a href="#" id="showLoginFromReset">Giriş sayfasına dön</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Share Modal -->
+        <div class="modal" id="shareModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Paylaş</h3>
+                    <button class="close-btn">&times;</button>
+                </div>
+                <div class="share-options">
+                    <div class="share-option whatsapp" id="shareWhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>WhatsApp ile Paylaş</span>
+                    </div>
+                    <div class="share-option facebook" id="shareFacebook">
+                        <i class="fab fa-facebook-f"></i>
+                        <span>Facebook ile Paylaş</span>
+                    </div>
+                    <div class="share-option twitter" id="shareTwitter">
+                        <i class="fab fa-twitter"></i>
+                        <span>Twitter ile Paylaş</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Radio stations data
+        const radioStations = [
+            {
+                id: 1,
+                name: "Power FM",
+                categories: ["Pop", "Slot"],
+                city: "İstanbul",
+                country: "tr",
+                logo: "https://radyolar.net.tr/uploads/img/power-fm.png",
+                streamUrl: "https://listen.powerapp.com.tr/powerfm/mpeg/icecast.audio",
+                website: "https://www.powerfm.com.tr",
+                facebook: "https://www.facebook.com/powerfm",
+                instagram: "https://www.instagram.com/powerfm",
+                twitter: "https://twitter.com/powerfm",
+                youtube: "https://www.youtube.com/powerfm",
+                phone: "+90 212 444 10 10",
+                likes: 1250,
+                userLikes: 0,
+                currentSong: "Daft Punk - Get Lucky",
+                isPopular: true,
+                slogan: "Türkiye'nin En Enerjik Radyosu",
+                image: "https://via.placeholder.com/600x200?text=Power+FM"
+            },
+            {
+                id: 2,
+                name: "Kral FM",
+                categories: ["Pop"],
+                city: "İstanbul",
+                country: "tr",
+                logo: "https://radyolar.net.tr/uploads/img/kral-fm.jpg",
+                streamUrl: "http://kralwmp.radyotvonline.com/",
+                website: "https://www.kralmuzik.com.tr",
+                facebook: "https://facebook.com/kralfm",
+                instagram: "https://instagram.com/kralfm",
+                twitter: "https://twitter.com/kralfm",
+                youtube: "https://www.youtube.com/kralfm",
+                phone: "+90 212 444 10 20",
+                likes: 980,
+                userLikes: 0,
+                currentSong: "The Weeknd - Blinding Lights",
+                isPopular: true,
+                slogan: "Müziğin Kralı",
+                image: "https://via.placeholder.com/600x200?text=Kral+FM"
+            },
+            {
+                id: 3,
+                name: "Radyo D",
+                categories: ["Türkçe Pop"],
+                city: "İstanbul",
+                country: "tr",
+                logo: "https://i1.sndcdn.com/artworks-000347732871-a2lynr-t500x500.jpg",
+                streamUrl: "https://radyo.duhnet.tv/radyod",
+                website: "https://www.radyod.com",
+                facebook: "https://www.facebook.com/radyod",
+                instagram: "https://www.instagram.com/radyod",
+                twitter: "https://twitter.com/radyod",
+                youtube: "https://www.youtube.com/radyod",
+                phone: "+90 212 444 10 30",
+                likes: 750,
+                userLikes: 0,
+                currentSong: "Tarkan - Geççek",
+                isPopular: true,
+                slogan: "Hit Müziğin Adresi",
+                image: "https://via.placeholder.com/600x200?text=Radyo+D"
+            },
+            {
+                id: 4,
+                name: "Number One FM",
+                categories: ["Türkçe Pop"],
+                city: "İstanbul",
+                country: "tr",
+                logo: "https://play-lh.googleusercontent.com/5M8Pz7xdTslLSDVLN7IXsTfg52ICXhEBT8C3PQkuA43Hxf7ARadz25cHat3oNbCuR5zo",
+                streamUrl: "https://n10101m.mediatriple.net/numberoneturk",
+                website: "https://www.numberonefm.com",
+                facebook: "https://www.facebook.com/numberonefm",
+                instagram: "https://www.instagram.com/numberonefm",
+                twitter: "https://twitter.com/numberonefm",
+                youtube: "https://www.youtube.com/numberonefm",
+                phone: "+90 212 444 10 40",
+                likes: 1100,
+                userLikes: 0,
+                currentSong: "Sezen Aksu - Gülümse",
+                isPopular: true,
+                slogan: "Türkiye'nin 1 Numaralı Radyosu",
+                image: "https://via.placeholder.com/600x200?text=Number+One+FM"
+            },
+            {
+                id: 5,
+                name: "Radyo EGE",
+                categories: ["Rock"],
+                city: "İzmir",
+                country: "tr",
+                logo: "https://cdn-profiles.tunein.com/s14315/images/logog.png",
+                streamUrl: "https://istek.ozelip.com/radyoege",
+                website: "https://www.radyoege.com.tr",
+                facebook: "https://www.facebook.com/radyoege",
+                instagram: "https://www.instagram.com/radyoege",
+                twitter: "https://twitter.com/radyoege",
+                youtube: "https://www.youtube.com/radyoege",
+                phone: "+90 232 444 10 50",
+                likes: 850,
+                userLikes: 0,
+                currentSong: "Metallica - Nothing Else Matters",
+                isPopular: true,
+                slogan: "Rock'ın Kalbi Burada Atıyor",
+                image: "https://via.placeholder.com/600x200?text=Radyo+EGE"
+            },
+            {
+                id: 6,
+                name: "Radyo Fenomen",
+                categories: ["Pop"],
+                city: "Ankara",
+                country: "tr",
+                logo: "https://radyolar.net.tr/uploads/img/radyo-fenomen.png",
+                streamUrl: "https://radyo.duhnet.tv/S2/RadyoFenomen",
+                website: "https://www.radyofenomen.com",
+                facebook: "https://www.facebook.com/radyofenomen",
+                instagram: "https://www.instagram.com/radyofenomen",
+                twitter: "https://twitter.com/radyofenomen",
+                youtube: "https://www.youtube.com/radyofenomen",
+                phone: "+90 312 444 10 60",
+                likes: 620,
+                userLikes: 0,
+                currentSong: "Dua Lipa - Don't Start Now",
+                isPopular: true,
+                slogan: "Pop Müziğin Fenomeni",
+                image: "https://via.placeholder.com/600x200?text=Radyo+Fenomen"
+            },
+            {
+                id: 7,
+                name: "Radyo 35",
+                categories: ["Türkçe Pop"],
+                city: "İzmir",
+                country: "tr",
+                logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDwxFRq8n1jJg6YSoMnsY-uRVwCB_MzvhgEw&s",
+                streamUrl: "https://yayin.turkhosted.com/6012/stream",
+                website: "https://www.radyo35.com",
+                facebook: "https://www.facebook.com/radyo35",
+                instagram: "https://www.instagram.com/radyo35",
+                twitter: "https://twitter.com/radyo35",
+                youtube: "https://www.youtube.com/radyo35",
+                phone: "+90 232 444 10 70",
+                likes: 540,
+                userLikes: 0,
+                currentSong: "Mabel - Don't Call Me Up",
+                isPopular: true,
+                slogan: "İzmir'in Sesi",
+                image: "https://via.placeholder.com/600x200?text=Radyo+35"
+            },
+            {
+                id: 8,
+                name: "Süper FM",
+                categories: ["Türkçe Pop", "Slot"],
+                city: "İstanbul",
+                country: "tr",
+                logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmAdwDj6MWVunsXAPVmwzFdkk8B-vXLO9nA3Tv-NHaB-iax-WtsnUbdV6JItuwZgkBDq4&usqp=CAU",
+                streamUrl: "https://playerservices.streamtheworld.com/api/livestream-redirect/SUPER_FM_SC?/;",
+                website: "https://superfm.com.tr/",
+                facebook: "https://www.facebook.com/superfm/",
+                instagram: "https://www.instagram.com/superfm/",
+                twitter: "https://twitter.com/superfm",
+                youtube: "https://www.youtube.com/superfm",
+                phone: "+90 212 444 10 80",
+                likes: 920,
+                userLikes: 0,
+                currentSong: "Tarkan - Dudu",
+                isPopular: true,
+                slogan: "Süper Hitler",
+                image: "https://mediacdns.karnaval.com/stationsites/superfm/assets/styles/images/logo_superfm.svg"
+            },
+            {
+                id: 9,
+                name: "Radyo Viva",
+                categories: ["Pop"],
+                city: "İstanbul",
+                country: "tr",
+                logo: "https://radyolar.net.tr/uploads/img/radyo-viva.jpg",
+                streamUrl: "http://46.20.3.231/;",
+                website: "https://www.radyoviva.com",
+                facebook: "https://www.facebook.com/radyoviva",
+                instagram: "https://www.instagram.com/radyoviva",
+                twitter: "https://twitter.com/radyoviva",
+                youtube: "https://www.youtube.com/radyoviva",
+                phone: "+90 212 444 10 90",
+                likes: 780,
+                userLikes: 0,
+                currentSong: "Ed Sheeran - Shape of You",
+                isPopular: true,
+                slogan: "Yaşamın Ritmi",
+                image: "https://via.placeholder.com/600x200?text=Radyo+Viva"
+            },
+            {
+                id: 10,
+                name: "Radyo Mydonose",
+                categories: ["Rock"],
+                city: "İstanbul",
+                country: "tr",
+                logo: "https://radyolar.net.tr/uploads/img/radyo-mydonose.jpg",
+                streamUrl: "https://radyo.duhnet.tv/mydonose",
+                website: "https://www.radyomydonose.com",
+                facebook: "https://www.facebook.com/radyomydonose",
+                instagram: "https://www.instagram.com/radyomydonose",
+                twitter: "https://twitter.com/radyomydonose",
+                youtube: "https://www.youtube.com/radyomydonose",
+                phone: "+90 212 444 11 00",
+                likes: 680,
+                userLikes: 0,
+                currentSong: "Linkin Park - In The End",
+                isPopular: true,
+                slogan: "Rock Müziğin Adresi",
+                image: "https://via.placeholder.com/600x200?text=Radyo+Mydonose"
+            },
+            {
+                id: 11,
+                name: "Best FM",
+                categories: ["Slow"],
+                city: "İstanbul",
+                country: "tr",
+                logo: "https://static.tuneyou.com/images/logos/500_500/70/13870/BestFM98.4_0.png",
+                streamUrl: "https://bestfm.turkhosted.com/;stream.mp3",
+                website: "https://www.slowturk.com.tr",
+                facebook: "https://www.facebook.com/slowturk",
+                instagram: "https://www.instagram.com/slowturk",
+                twitter: "https://twitter.com/slowturk",
+                youtube: "https://www.youtube.com/slowturk",
+                phone: "+90 212 444 11 10",
+                likes: 890,
+                userLikes: 0,
+                currentSong: "Norah Jones - Don't Know Why",
+                isPopular: true,
+                slogan: "Huzurun Sesi",
+                image: "https://via.placeholder.com/600x200?text=Best+FM"
+            },
+            {
+                id: 12,
+                name: "Radyo Izmir FM",
+                categories: ["Türk Halk Müziği"],
+                city: "Izmir",
+                country: "tr",
+                logo: "https://static.mytuner.mobi/media/tvos_radios/911/radyo-izmir-fm.5c2b2f80.png",
+                streamUrl: "https://usa4.fastcast4u.com/proxy/radyoizmirfm?mp=/mp3stream128",
+                website: "https://www.radyotatlises.com",
+                facebook: "https://www.facebook.com/radyotatlises",
+                instagram: "https://www.instagram.com/radyotatlises",
+                twitter: "https://twitter.com/radyotatlises",
+                youtube: "https://www.youtube.com/radyotatlises",
+                phone: "+90 232 444 11 20",
+                likes: 720,
+                userLikes: 0,
+                currentSong: "İbrahim Tatlıses - Mavi Mavi",
+                isPopular: true,
+                slogan: "Anadolu'nun Sesi",
+                image: "https://via.placeholder.com/600x200?text=Radyo+Izmir+FM"
+            },
+            {
+                id: 13,
+                name: "Radyo Tatlıses",
+                categories: ["pop"],
+                city: "İstanbul",
+                country: "tr",
+                logo: "https://tr.wikipedia-on-ipfs.org/I/Radyo_Tatlıses_logosu.png.webp",
+                streamUrl: "https://sslyayin.radyoyayini.com:7009/default",
+                website: "https://www.radyotatlises.com",
+                facebook: "https://www.facebook.com/radyotatlises",
+                instagram: "https://www.instagram.com/radyotatlises",
+                twitter: "https://twitter.com/radyotatlises",
+                youtube: "https://www.youtube.com/radyotatlises",
+                phone: "+90 212 444 11 30",
+                likes: 720,
+                userLikes: 0,
+                currentSong: "İbrahim Tatlıses - Mavi Mavi",
+                isPopular: true,
+                slogan: "YİNE, YENİDEN, KALDIĞIMIZ YERDEN",
+                image: "https://radyotatlises.com.tr/wp-content/uploads/2021/06/beyazlogo.png"
+            }
+        ];
+
+        // Audio player
+        const audioPlayer = new Audio();
+        let currentStation = null;
+        let isPlaying = false;
+        let history = JSON.parse(localStorage.getItem('history')) || [];
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        let likedStations = JSON.parse(localStorage.getItem('likedStations')) || [];
+        let isLoggedIn = false;
+        let currentUser = {
+            name: "Misafir Kullanıcı",
+            city: "Şehir Seçilmedi",
+            email: "",
+            password: "",
+            avatar: "https://via.placeholder.com/100"
+        };
+
+        // Pagination variables
+        let currentPage = 1;
+        const itemsPerPage = 25;
+        let filteredStations = [];
+        const totalPages = Math.ceil(radioStations.length / itemsPerPage);
+
+        // DOM elements
+        const stationsList = document.getElementById('stationsList');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const volumeControl = document.getElementById('volumeControl');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const searchInput = document.getElementById('searchInput');
+        const noResults = document.getElementById('noResults');
+        const categorySelect = document.getElementById('categorySelect');
+        const citySelect = document.getElementById('citySelect');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const loginBtn = document.querySelector('.login-btn');
+        const registerBtn = document.querySelector('.register-btn');
+        const logoutBtn = document.querySelector('.logout-btn');
+        const userAvatar = document.getElementById('userAvatar');
+        const avatarUpload = document.getElementById('avatarUpload');
+        const userName = document.querySelector('.user-name');
+        const userCity = document.querySelector('.city-name');
+        const historyCount = document.getElementById('historyCount');
+        const favoritesCount = document.getElementById('favoritesCount');
+        const likesCount = document.getElementById('likesCount');
+        const historyList = document.getElementById('historyList');
+        const favoritesList = document.getElementById('favoritesList');
+        const profileForm = document.getElementById('profileForm');
+        const profileName = document.getElementById('profileName');
+        const profileCity = document.getElementById('profileCity');
+        const profileEmail = document.getElementById('profileEmail');
+        const currentPassword = document.getElementById('currentPassword');
+        const newPassword = document.getElementById('newPassword');
+        const confirmPassword = document.getElementById('confirmPassword');
+        const toggleCurrentPassword = document.getElementById('toggleCurrentPassword');
+        const toggleNewPassword = document.getElementById('toggleNewPassword');
+        const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+        const tabLinks = document.querySelectorAll('.tab-link');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const recommendationsList = document.getElementById('recommendationsList');
+        const modernPlayerLogo = document.getElementById('modernPlayerLogo');
+        const modernPlayerTitle = document.getElementById('modernPlayerTitle');
+        const modernPlayerArtist = document.getElementById('modernPlayerArtist');
+        const modernPlayBtn = document.getElementById('modernPlayBtn');
+        const modernPrevBtn = document.getElementById('modernPrevBtn');
+        const modernNextBtn = document.getElementById('modernNextBtn');
+        const likeBtn = document.getElementById('likeBtn');
+        const favoriteBtn = document.getElementById('favoriteBtn');
+        const shareBtn = document.getElementById('shareBtn');
+        const facebookBtn = document.getElementById('facebookBtn');
+        const twitterBtn = document.getElementById('twitterBtn');
+        const instagramBtn = document.getElementById('instagramBtn');
+        const youtubeBtn = document.getElementById('youtubeBtn');
+        const websiteBtn = document.getElementById('websiteBtn');
+        const shareModal = document.getElementById('shareModal');
+        const shareWhatsApp = document.getElementById('shareWhatsApp');
+        const shareFacebook = document.getElementById('shareFacebook');
+        const shareTwitter = document.getElementById('shareTwitter');
+        const countrySelect = document.getElementById('countrySelect');
+        const pagination = document.getElementById('pagination');
+        const prevPageBtn = document.getElementById('prevPageBtn');
+        const nextPageBtn = document.getElementById('nextPageBtn');
+        const pageInfo = document.getElementById('pageInfo');
+        const nightModeBtn = document.getElementById('nightModeBtn');
+        const currentRadioName = document.getElementById('currentRadioName');
+        const pageButtons = document.getElementById('pageButtons');
+        const equalizer = document.getElementById('equalizer');
+        const likeCount = document.getElementById('likeCount');
+        const listenerCount = document.getElementById('listenerCount');
+        
+        // Radio info elements
+        const radioInfoName = document.getElementById('radioInfoName');
+        const radioInfoCity = document.getElementById('radioInfoCity');
+        const radioInfoSlogan = document.getElementById('radioInfoSlogan');
+        const radioInfoPhone = document.getElementById('radioInfoPhone');
+        const radioInfoImage = document.getElementById('radioInfoImage');
+        const radioSocialFacebook = document.getElementById('radioSocialFacebook');
+        const radioSocialTwitter = document.getElementById('radioSocialTwitter');
+        const radioSocialInstagram = document.getElementById('radioSocialInstagram');
+        const radioSocialYoutube = document.getElementById('radioSocialYoutube');
+        
+        // Contact form elements
+        const contactForm = document.getElementById('contactForm');
+        const contactName = document.getElementById('contactName');
+        const contactEmail = document.getElementById('contactEmail');
+        const contactSubject = document.getElementById('contactSubject');
+        const contactMessage = document.getElementById('contactMessage');
+        
+        // Modal elements
+        const registerModal = document.getElementById('registerModal');
+        const loginModal = document.getElementById('loginModal');
+        const resetModal = document.getElementById('resetModal');
+        const registerForm = document.getElementById('registerForm');
+        const loginForm = document.getElementById('loginForm');
+        const resetForm = document.getElementById('resetForm');
+        const showRegister = document.getElementById('showRegister');
+        const showLogin = document.getElementById('showLogin');
+        const showReset = document.getElementById('showReset');
+        const showLoginFromReset = document.getElementById('showLoginFromReset');
+        const closeBtns = document.querySelectorAll('.close-btn');
+
+        // Initialize
+        function init() {
+            renderStations();
+            setupFilters();
+            audioPlayer.volume = volumeControl.value / 100;
+            
+            // Load history, favorites and liked stations from localStorage
+            updateHistoryInData();
+            updateFavoritesInData();
+            updateLikedStationsInData();
+            
+            // Update user profile
+            updateUserProfile();
+            
+            // Check login status
+            checkLoginStatus();
+            
+            // Load history and favorites lists
+            renderHistoryList();
+            renderFavoritesList();
+            
+            // Set up tab switching
+            setupTabs();
+            
+            // Load recommended stations
+            renderRecommendedStations();
+            
+            // Set up country select
+            setupCountrySelect();
+            
+            // Update pagination
+            updatePagination();
+            
+            // Check for night mode preference
+            checkNightMode();
+            
+            // Setup page buttons
+            setupPageButtons();
+            
+            // Hide equalizer initially
+            equalizer.style.display = 'none';
+        }
+
+        // Setup page buttons
+        function setupPageButtons() {
+            pageButtons.innerHTML = '';
+            
+            // Always show first 3 pages
+            for (let i = 1; i <= 3; i++) {
+                const button = document.createElement('button');
+                button.className = 'page-button';
+                if (i === currentPage) {
+                    button.classList.add('active');
+                }
+                button.textContent = i;
+                button.dataset.page = i;
+                
+                button.addEventListener('click', () => {
+                    currentPage = i;
+                    filterStations();
+                    updatePageButtons();
+                });
+                
+                pageButtons.appendChild(button);
+            }
+        }
+
+        // Update page buttons
+        function updatePageButtons() {
+            const buttons = pageButtons.querySelectorAll('.page-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                if (parseInt(button.dataset.page) === currentPage) {
+                    button.classList.add('active');
+                }
+            });
+        }
+
+        // Check and apply night mode
+        function checkNightMode() {
+            const nightMode = localStorage.getItem('nightMode') === 'true';
+            if (nightMode) {
+                document.body.classList.add('night-mode');
+                nightModeBtn.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                document.body.classList.remove('night-mode');
+                nightModeBtn.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        }
+
+        // Toggle night mode
+        function toggleNightMode() {
+            const isNightMode = document.body.classList.toggle('night-mode');
+            localStorage.setItem('nightMode', isNightMode);
+            
+            if (isNightMode) {
+                nightModeBtn.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                nightModeBtn.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        }
+
+        // Update user profile display
+        function updateUserProfile() {
+            userAvatar.src = currentUser.avatar;
+            userName.textContent = currentUser.name;
+            userCity.textContent = currentUser.city;
+            historyCount.textContent = history.length;
+            favoritesCount.textContent = favorites.length;
+            likesCount.textContent = likedStations.length;
+            
+            if (isLoggedIn) {
+                profileName.value = currentUser.name;
+                profileCity.value = currentUser.city;
+                profileEmail.value = currentUser.email;
+            } else {
+                profileName.value = "";
+                profileCity.value = "";
+                profileEmail.value = "";
+            }
+        }
+
+        // Check login status
+        function checkLoginStatus() {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            
+            if (loggedInUser) {
+                isLoggedIn = true;
+                currentUser = JSON.parse(loggedInUser);
+                updateUserProfile();
+                loginBtn.style.display = 'none';
+                registerBtn.style.display = 'none';
+                logoutBtn.style.display = 'block';
+            } else {
+                isLoggedIn = false;
+                loginBtn.style.display = 'block';
+                registerBtn.style.display = 'block';
+                logoutBtn.style.display = 'none';
+            }
+        }
+
+        // Setup tabs
+        function setupTabs() {
+            tabLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    tabLinks.forEach(tab => tab.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    const tabId = link.getAttribute('data-tab');
+                    link.classList.add('active');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+        }
+
+        // Render radio stations with pagination
+        function renderStations(filteredStations = radioStations) {
+            stationsList.innerHTML = '';
+            noResults.style.display = 'none';
+            
+            if (filteredStations.length === 0) {
+                noResults.style.display = 'block';
+                updatePagination(1, 0);
+                return;
+            }
+            
+            // Sort by likes (descending) for popular filter
+            if (document.querySelector('.filter-btn.active').dataset.filter === 'popular') {
+                filteredStations.sort((a, b) => b.likes - a.likes);
+            } else {
+                // Default sort by ID
+                filteredStations.sort((a, b) => a.id - b.id);
+            }
+            
+            // Calculate total pages
+            const totalPages = Math.ceil(filteredStations.length / itemsPerPage);
+    
+            // Get stations for current page
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const stationsToShow = filteredStations.slice(startIndex, endIndex);
+            
+            stationsToShow.forEach(station => {
+                const stationElement = document.createElement('div');
+                stationElement.className = 'radio-station';
+                stationElement.dataset.id = station.id;
+                stationElement.dataset.categories = station.categories.map(g => g.toLowerCase()).join(' ');
+                stationElement.dataset.city = station.city.toLowerCase();
+                stationElement.dataset.country = station.country;
+                stationElement.innerHTML = `
+                    <div class="radio-logo-container">
+                        <img src="${station.logo}" alt="${station.name}" class="radio-logo">
+                        <div class="favorite-icon" data-id="${station.id}">
+                            ${favorites.includes(station.id) ? '<i class="fas fa-star"></i>' : '<i class="far fa-star"></i>'}
+                        </div>
+                        <div class="like-count">
+                            <i class="fas fa-heart"></i> ${station.likes}
+                        </div>
+                    </div>
+                    <div class="radio-name">${station.name}</div>
+                `;
+                
+                stationElement.addEventListener('click', () => {
+                    selectStation(station);
+                });
+                
+                const favoriteIcon = stationElement.querySelector('.favorite-icon');
+                favoriteIcon.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    toggleFavorite(station.id);
+                });
+                
+                stationsList.appendChild(stationElement);
+            });
+            
+            // Update pagination
+            updatePagination(totalPages, filteredStations.length);
+            updatePageButtons();
+        }
+
+        // Update pagination buttons
+        function updatePagination(totalPages = 1, totalItems = radioStations.length) {
+            const startItem = (currentPage - 1) * itemsPerPage + 1;
+            const endItem = Math.min(currentPage * itemsPerPage, totalItems);
+            
+            pageInfo.textContent = `${currentPage}`;
+            
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage === totalPages;
+            
+            if (totalPages <= 1) {
+                prevPageBtn.style.display = 'none';
+                nextPageBtn.style.display = 'none';
+            } else {
+                prevPageBtn.style.display = 'block';
+                nextPageBtn.style.display = 'block';
+            }
+        }
+
+        // Render history list
+        function renderHistoryList() {
+            historyList.innerHTML = '';
+            
+            if (history.length === 0) {
+                historyList.innerHTML = '<div class="empty-message">Henüz dinleme geçmişiniz yok</div>';
+                return;
+            }
+            
+            // Show all items
+            const reversedHistory = [...history].reverse();
+            
+            reversedHistory.forEach(historyItem => {
+                const station = radioStations.find(s => s.id === historyItem.stationId);
+                if (station) {
+                    const historyElement = document.createElement('div');
+                    historyElement.className = 'history-item';
+                    historyElement.dataset.id = station.id;
+                    historyElement.innerHTML = `
+                        <img src="${station.logo}" alt="${station.name}" class="history-logo">
+                        <div class="history-info">
+                            <div class="history-name">${station.name}</div>
+                            <div class="history-category">${station.categories.join(', ')} • ${station.city}</div>
+                        </div>
+                    `;
+                    
+                    historyElement.addEventListener('click', () => {
+                        selectStation(station);
+                    });
+                    
+                    historyList.appendChild(historyElement);
+                }
+            });
+        }
+
+        // Render favorites list
+        function renderFavoritesList() {
+            favoritesList.innerHTML = '';
+            
+            if (favorites.length === 0) {
+                favoritesList.innerHTML = '<div class="empty-message">Henüz favori radyonuz yok</div>';
+                return;
+            }
+            
+            // Show all items
+            favorites.forEach(stationId => {
+                const station = radioStations.find(s => s.id === stationId);
+                if (station) {
+                    const favoriteElement = document.createElement('div');
+                    favoriteElement.className = 'favorite-item';
+                    favoriteElement.dataset.id = station.id;
+                    favoriteElement.innerHTML = `
+                        <img src="${station.logo}" alt="${station.name}" class="favorite-logo">
+                        <div class="favorite-info">
+                            <div class="favorite-name">${station.name}</div>
+                            <div class="favorite-category">${station.categories.join(', ')} • ${station.city}</div>
+                        </div>
+                        <button class="favorite-btn" data-id="${station.id}"><i class="fas fa-times"></i></button>
+                    `;
+                    
+                    favoriteElement.addEventListener('click', (e) => {
+                        if (!e.target.classList.contains('favorite-btn') && !e.target.closest('.favorite-btn')) {
+                            selectStation(station);
+                        }
+                    });
+                    
+                    const removeBtn = favoriteElement.querySelector('.favorite-btn');
+                    removeBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        toggleFavorite(station.id);
+                    });
+                    
+                    favoritesList.appendChild(favoriteElement);
+                }
+            });
+        }
+
+        // Render recommended stations
+        function renderRecommendedStations(currentCategory = null) {
+            recommendationsList.innerHTML = '';
+            
+            // Get all stations except the current one if playing
+            let availableStations = radioStations.filter(station => 
+                !currentStation || station.id !== currentStation.id
+            );
+            
+            // If current category is specified, prioritize stations with the same category
+            if (currentCategory) {
+                const sameCategoryStations = availableStations.filter(station => 
+                    station.categories.includes(currentCategory)
+                );
+                
+                // If we have enough same-category stations, use them
+                if (sameCategoryStations.length >= 7) {
+                    availableStations = sameCategoryStations;
+                } else {
+                    // Otherwise, mix with popular stations
+                    const popularStations = availableStations.sort((a, b) => b.likes - a.likes);
+                    
+                    availableStations = [...new Set([...sameCategoryStations, ...popularStations])];
+                }
+            } else {
+                // If no current category, use popular stations
+                availableStations = availableStations.sort((a, b) => b.likes - a.likes);
+            }
+            
+            // Shuffle the array to get random recommendations
+            availableStations = shuffleArray(availableStations);
+            
+            // Take first 8 stations
+            const recommendedStations = availableStations.slice(0, 7);
+            
+            if (recommendedStations.length === 0) {
+                recommendationsList.innerHTML = '<div class="empty-message">Öneri bulunamadı</div>';
+                return;
+            }
+            
+            recommendedStations.forEach(station => {
+                const recommendedElement = document.createElement('div');
+                recommendedElement.className = 'recommended-station';
+                recommendedElement.dataset.id = station.id;
+                recommendedElement.innerHTML = `
+                    <img src="${station.logo}" alt="${station.name}" class="recommended-logo">
+                    <div class="recommended-name">${station.name}</div>
+                `;
+                
+                recommendedElement.addEventListener('click', () => {
+                    selectStation(station);
+                });
+                
+                recommendationsList.appendChild(recommendedElement);
+            });
+        }
+
+        // Helper function to shuffle array
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        // Setup filter dropdowns
+        function setupFilters() {
+            // Get all unique categories from all stations
+            const allCategories = [];
+            radioStations.forEach(station => {
+                station.categories.forEach(category => {
+                    if (!allCategories.includes(category)) {
+                        allCategories.push(category);
+                    }
+                });
+            });
+            
+            // Sort categories alphabetically
+            allCategories.sort();
+            
+            // Add categories to select
+            allCategories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category.toLowerCase();
+                option.textContent = category;
+                categorySelect.appendChild(option);
+            });
+            
+            // Get all unique cities
+            const cities = [...new Set(radioStations.map(station => station.city))];
+            cities.sort();
+            
+            // Add cities to select
+            cities.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city.toLowerCase();
+                option.textContent = city;
+                citySelect.appendChild(option);
+            });
+            
+            categorySelect.addEventListener('change', filterStations);
+            citySelect.addEventListener('change', filterStations);
+        }
+
+        // Setup country select
+        function setupCountrySelect() {
+            countrySelect.addEventListener('change', (e) => {
+                const selectedCountry = e.target.value;
+                const selectedOption = e.target.options[e.target.selectedIndex];
+                const countryName = selectedOption.text;
+                
+                // Redirect to country-specific site
+                window.location.href = `https://${selectedCountry}.radiodinle.com`;
+            });
+        }
+
+        // Filter stations
+        function filterStations() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+            const selectedCategory = categorySelect.value;
+            const selectedCity = citySelect.value;
+            const selectedCountry = countrySelect.value;
+            
+            filteredStations = radioStations.filter(station => {
+                const matchesSearch = station.name.toLowerCase().includes(searchTerm) || 
+                                     station.categories.some(g => g.toLowerCase().includes(searchTerm)) || 
+                                     station.city.toLowerCase().includes(searchTerm);
+                
+                const matchesFilter = activeFilter === 'all' || 
+                                    (activeFilter === 'favorites' && favorites.includes(station.id)) ||
+                                    (activeFilter === 'popular' && station.isPopular);
+                
+                const matchesCategory = selectedCategory === 'all' || 
+                                   station.categories.some(g => g.toLowerCase() === selectedCategory);
+                
+                const matchesCity = selectedCity === 'all' || 
+                                  station.city.toLowerCase() === selectedCity;
+                
+                const matchesCountry = selectedCountry === 'all' || 
+                                     station.country === selectedCountry;
+                
+                return matchesSearch && matchesFilter && matchesCategory && matchesCity && matchesCountry;
+            });
+            
+            // Reset to first page when filtering
+            currentPage = 1;
+            renderStations(filteredStations);
+        }
+
+        // Add to history
+        function addToHistory(stationId) {
+            if (!isLoggedIn) return;
+            
+            history = history.filter(item => item.stationId !== stationId);
+            
+            history.push({
+                stationId,
+                timestamp: new Date().getTime()
+            });
+            
+            if (history.length > 50) {
+                history = history.slice(history.length - 50);
+            }
+            
+            localStorage.setItem('history', JSON.stringify(history));
+            updateHistoryInData();
+            historyCount.textContent = history.length;
+            renderHistoryList();
+        }
+
+        // Toggle favorite station
+        function toggleFavorite(stationId) {
+            if (!isLoggedIn) {
+                showModal('loginModal');
+                return;
+            }
+            
+            const index = favorites.indexOf(stationId);
+            
+            if (index === -1) {
+                favorites.push(stationId);
+            } else {
+                favorites.splice(index, 1);
+            }
+            
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            updateFavoritesInData();
+            favoritesCount.textContent = favorites.length;
+            renderFavoritesList();
+            renderStations(filteredStations.length > 0 ? filteredStations : radioStations);
+            
+            if (document.querySelector('.filter-btn.active').dataset.filter === 'favorites') {
+                filterStations();
+            }
+        }
+
+        // Toggle like station
+        function toggleLike(stationId) {
+            if (!isLoggedIn) {
+                showModal('loginModal');
+                return;
+            }
+            
+            const station = radioStations.find(s => s.id === stationId);
+            if (!station) return;
+            
+            const index = likedStations.indexOf(stationId);
+            
+            if (index === -1) {
+                // Like the station
+                likedStations.push(stationId);
+                station.likes++;
+                station.userLikes = 1;
+            } else {
+                // Unlike the station
+                likedStations.splice(index, 1);
+                station.likes--;
+                station.userLikes = 0;
+            }
+            
+            localStorage.setItem('likedStations', JSON.stringify(likedStations));
+            updateLikedStationsInData();
+            likesCount.textContent = likedStations.length;
+            renderStations(filteredStations.length > 0 ? filteredStations : radioStations);
+            
+            // Update like count display if this is the current station
+            if (currentStation && currentStation.id === stationId) {
+                likeCount.textContent = station.likes;
+            }
+            
+            // Save updated likes to localStorage
+            localStorage.setItem('radioStations', JSON.stringify(radioStations));
+        }
+
+        // Update history in data
+        function updateHistoryInData() {
+            radioStations.forEach(station => {
+                station.isInHistory = history.some(item => item.stationId === station.id);
+            });
+        }
+
+        // Update favorites in data
+        function updateFavoritesInData() {
+            radioStations.forEach(station => {
+                station.isFavorite = favorites.includes(station.id);
+            });
+        }
+
+        // Update liked stations in data
+        function updateLikedStationsInData() {
+            radioStations.forEach(station => {
+                station.isLiked = likedStations.includes(station.id);
+            });
+        }
+
+        // Select a radio station
+        function selectStation(station) {
+            document.querySelectorAll('.radio-station').forEach(el => {
+                el.classList.remove('active-radio');
+            });
+            
+            const selectedElement = document.querySelector(`.radio-station[data-id="${station.id}"]`);
+            if (selectedElement) {
+                selectedElement.classList.add('active-radio');
+            }
+            
+            currentStation = station;
+            currentRadioName.textContent = station.name;
+            
+            modernPlayerLogo.src = station.logo;
+            modernPlayerTitle.textContent = station.name;
+            modernPlayerArtist.textContent = station.slogan || station.slogan || "Canlı Yayın";
+            
+            // Update like button state
+            const likeIcon = likeBtn.querySelector('i');
+            if (likedStations.includes(station.id)) {
+                likeIcon.classList.remove('far');
+                likeIcon.classList.add('fas');
+                likeBtn.classList.add('active');
+            } else {
+                likeIcon.classList.remove('fas');
+                likeIcon.classList.add('far');
+                likeBtn.classList.remove('active');
+            }
+            
+            // Update like count
+            likeCount.textContent = station.likes;
+            
+            // Update listener count with random number around the base
+            listenerCount.textContent = Math.floor(station.likes * 1.2 + Math.random() * 100);
+            
+            // Update favorite button state
+            const favoriteIcon = favoriteBtn.querySelector('i');
+            if (favorites.includes(station.id)) {
+                favoriteIcon.classList.remove('far');
+                favoriteIcon.classList.add('fas');
+                favoriteBtn.classList.add('active');
+            } else {
+                favoriteIcon.classList.remove('fas');
+                favoriteIcon.classList.add('far');
+                favoriteBtn.classList.remove('active');
+            }
+            
+            // Update radio info
+            updateRadioInfo(station);
+            
+            addToHistory(station.id);
+            renderRecommendedStations(station.categories[0]);
+            playStation();
+        }
+
+        // Update radio info section
+        function updateRadioInfo(station) {
+            radioInfoName.textContent = station.name;
+            radioInfoCity.textContent = station.city;
+            radioInfoSlogan.textContent = station.slogan || "-";
+            radioInfoPhone.textContent = station.phone || "-";
+            radioInfoImage.src = station.image;
+            
+            // Fit image to container
+            radioInfoImage.style.objectFit = 'cover';
+            radioInfoImage.style.width = '100%';
+            radioInfoImage.style.height = '100%';
+            
+            // Update social media links
+            radioSocialFacebook.href = station.facebook || "#";
+            radioSocialTwitter.href = station.twitter || "#";
+            radioSocialInstagram.href = station.instagram || "#";
+            radioSocialYoutube.href = station.youtube || "#";
+            
+            // Disable social buttons if no link available
+            radioSocialFacebook.style.display = station.facebook ? "flex" : "none";
+            radioSocialTwitter.style.display = station.twitter ? "flex" : "none";
+            radioSocialInstagram.style.display = station.instagram ? "flex" : "none";
+            radioSocialYoutube.style.display = station.youtube ? "flex" : "none";
+        }
+
+        // Play the selected station
+        function playStation() {
+            if (!currentStation) return;
+            
+            loadingIndicator.style.display = 'block';
+            audioPlayer.src = currentStation.streamUrl;
+            
+            audioPlayer.play()
+                .then(() => {
+                    isPlaying = true;
+                    loadingIndicator.style.display = 'none';
+                    modernPlayBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    equalizer.style.display = 'flex';
+                    
+                    // Start equalizer animation
+                    animateEqualizer();
+                })
+                .catch(error => {
+                    loadingIndicator.style.display = 'none';
+                    console.error('Playback error:', error);
+                });
+        }
+
+        // Animate equalizer bars
+        function animateEqualizer() {
+            const bars = document.querySelectorAll('.equalizer-bar');
+            bars.forEach((bar, index) => {
+                // Randomize animation duration for each bar
+                const duration = 0.8 + Math.random() * 0.4;
+                bar.style.animation = `equalize ${duration}s infinite ease-in-out`;
+            });
+        }
+
+        // Pause the current station
+        function pauseStation() {
+            audioPlayer.pause();
+            isPlaying = false;
+            modernPlayBtn.innerHTML = '<i class="fas fa-play"></i>';
+            equalizer.style.display = 'none';
+        }
+
+        // Register function
+        function register(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('regName').value;
+            const city = document.getElementById('regCity').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const passwordConfirm = document.getElementById('regPasswordConfirm').value;
+            
+            if (password !== passwordConfirm) {
+                alert('Şifreler eşleşmiyor!');
+                return;
+            }
+            
+            if (password.length < 6) {
+                alert('Şifre en az 6 karakter olmalıdır!');
+                return;
+            }
+            
+            isLoggedIn = true;
+            currentUser = {
+                name,
+                city,
+                email,
+                password,
+                avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random`
+            };
+            
+            localStorage.setItem('loggedInUser', JSON.stringify(currentUser));
+            updateUserProfile();
+            checkLoginStatus();
+            
+            registerForm.reset();
+            hideModal('registerModal');
+        }
+
+        // Login function
+        function login(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                alert('Lütfen e-posta ve şifre girin!');
+                return;
+            }
+            
+            const name = email.split('@')[0];
+            isLoggedIn = true;
+            currentUser = {
+                name,
+                city: "İstanbul",
+                email,
+                password,
+                avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random`
+            };
+            
+            localStorage.setItem('loggedInUser', JSON.stringify(currentUser));
+            updateUserProfile();
+            checkLoginStatus();
+            
+            loginForm.reset();
+            hideModal('loginModal');
+        }
+
+        // Reset password function
+        function resetPassword(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('resetEmail').value;
+            
+            if (!email) {
+                alert('Lütfen e-posta adresinizi girin!');
+                return;
+            }
+            
+            // Here you would normally send a password reset email
+            // For demo purposes, we'll just show an alert
+            alert(`Şifre sıfırlama bağlantısı ${email} adresine gönderildi. Lütfen e-postanızı kontrol edin.`);
+            
+            resetForm.reset();
+            hideModal('resetModal');
+        }
+
+        // Logout function
+        function logout() {
+            isLoggedIn = false;
+            currentUser = {
+                name: "Misafir Kullanıcı",
+                city: "Şehir Seçilmedi",
+                email: "",
+                password: "",
+                avatar: "https://via.placeholder.com/100"
+            };
+            
+            localStorage.removeItem('loggedInUser');
+            updateUserProfile();
+            checkLoginStatus();
+        }
+
+        // Save profile settings
+        function saveProfile(e) {
+            e.preventDefault();
+            
+            if (!isLoggedIn) {
+                showModal('loginModal');
+                return;
+            }
+            
+            if (currentPassword.value && currentPassword.value !== currentUser.password) {
+                alert('Mevcut şifre hatalı!');
+                return;
+            }
+            
+            if (newPassword.value !== confirmPassword.value) {
+                alert('Yeni şifreler eşleşmiyor!');
+                return;
+            }
+            
+            currentUser.name = profileName.value;
+            currentUser.city = profileCity.value;
+            currentUser.email = profileEmail.value;
+            
+            if (newPassword.value) {
+                currentUser.password = newPassword.value;
+            }
+            
+            localStorage.setItem('loggedInUser', JSON.stringify(currentUser));
+            updateUserProfile();
+            
+            currentPassword.value = '';
+            newPassword.value = '';
+            confirmPassword.value = '';
+        }
+
+        // Handle avatar upload
+        function handleAvatarUpload(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    currentUser.avatar = event.target.result;
+                    localStorage.setItem('loggedInUser', JSON.stringify(currentUser));
+                    updateUserProfile();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Toggle password visibility
+        function togglePasswordVisibility(inputId, toggleId) {
+            const input = document.getElementById(inputId);
+            const toggle = document.getElementById(toggleId);
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                toggle.classList.remove('fa-eye');
+                toggle.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                toggle.classList.remove('fa-eye-slash');
+                toggle.classList.add('fa-eye');
+            }
+        }
+
+        // Show modal
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        // Hide modal
+        function hideModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Share station
+        function shareStation(platform) {
+            if (!currentStation) return;
+            
+            let url = '';
+            let text = `${currentStation.name} radyosunu dinliyorum!`;
+            
+            switch(platform) {
+                case 'whatsapp':
+                    url = `https://wa.me/?text=${encodeURIComponent(text + ' ' + currentStation.website)}`;
+                    window.open(url, '_blank');
+                    break;
+                case 'facebook':
+                    url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentStation.website)}&quote=${encodeURIComponent(text)}`;
+                    window.open(url, '_blank', 'width=600,height=400');
+                    break;
+                case 'twitter':
+                    url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(currentStation.website)}`;
+                    window.open(url, '_blank', 'width=600,height=400');
+                    break;
+            }
+            
+            hideModal('shareModal');
+        }
+
+        // Open social media link
+        function openSocialMedia(platform) {
+            if (!currentStation) return;
+            
+            let url = '';
+            
+            switch(platform) {
+                case 'facebook':
+                    url = currentStation.facebook;
+                    break;
+                case 'twitter':
+                    url = currentStation.twitter;
+                    break;
+                case 'instagram':
+                    url = currentStation.instagram;
+                    break;
+                case 'youtube':
+                    url = currentStation.youtube;
+                    break;
+                case 'website':
+                    url = currentStation.website;
+                    break;
+            }
+            
+            if (url) {
+                window.open(url, '_blank');
+            }
+        }
+
+        // Handle contact form submission
+        function handleContactForm(e) {
+            e.preventDefault();
+            
+            if (!isLoggedIn) {
+                showModal('loginModal');
+                return;
+            }
+            
+            if (!currentStation) {
+                alert('Lütfen önce bir radyo seçiniz.');
+                return;
+            }
+            
+            const name = contactName.value.trim();
+            const email = contactEmail.value.trim();
+            const subject = contactSubject.value;
+            const message = contactMessage.value.trim();
+            
+            if (!name || !email || !subject || !message) {
+                alert('Lütfen tüm alanları doldurunuz.');
+                return;
+            }
+            
+            // Here you would normally send the message to the server
+            // For demo purposes, we'll just show an alert
+            alert(`Mesajınız ${currentStation.name} radyosuna başarıyla gönderildi!\n\nKonu: ${subject}\nMesaj: ${message}`);
+            
+            // Reset form
+            contactForm.reset();
+        }
+
+        // Event listeners
+        modernPlayBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                pauseStation();
+            } else if (currentStation) {
+                playStation();
+            }
+        });
+
+        volumeControl.addEventListener('input', () => {
+            audioPlayer.volume = volumeControl.value / 100;
+        });
+
+        sendBtn.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (message && currentStation) {
+                const username = isLoggedIn ? currentUser.name : 'Misafir';
+                const messageElement = document.createElement('div');
+                messageElement.className = 'message';
+                messageElement.innerHTML = `
+                    <span class="message-sender">${username} (${currentStation.name}):</span> ${message}
+                `;
+                chatMessages.appendChild(messageElement);
+                chatInput.value = '';
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                filterStations();
+            });
+        });
+
+        searchInput.addEventListener('input', filterStations);
+        loginBtn.addEventListener('click', () => showModal('loginModal'));
+        registerBtn.addEventListener('click', () => showModal('registerModal'));
+        logoutBtn.addEventListener('click', logout);
+        registerForm.addEventListener('submit', register);
+        loginForm.addEventListener('submit', login);
+        resetForm.addEventListener('submit', resetPassword);
+        profileForm.addEventListener('submit', saveProfile);
+        userAvatar.addEventListener('click', () => {
+            if (isLoggedIn) {
+                avatarUpload.click();
+            }
+        });
+        avatarUpload.addEventListener('change', handleAvatarUpload);
+        toggleCurrentPassword.addEventListener('click', () => togglePasswordVisibility('currentPassword', 'toggleCurrentPassword'));
+        toggleNewPassword.addEventListener('click', () => togglePasswordVisibility('newPassword', 'toggleNewPassword'));
+        toggleConfirmPassword.addEventListener('click', () => togglePasswordVisibility('confirmPassword', 'toggleConfirmPassword'));
+        showRegister.addEventListener('click', (e) => {
+            e.preventDefault();
+            hideModal('loginModal');
+            showModal('registerModal');
+        });
+        showLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            hideModal('registerModal');
+            showModal('loginModal');
+        });
+        showReset.addEventListener('click', (e) => {
+            e.preventDefault();
+            hideModal('loginModal');
+            showModal('resetModal');
+        });
+        showLoginFromReset.addEventListener('click', (e) => {
+            e.preventDefault();
+            hideModal('resetModal');
+            showModal('loginModal');
+        });
+        closeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                hideModal('registerModal');
+                hideModal('loginModal');
+                hideModal('resetModal');
+                hideModal('shareModal');
+            });
+        });
+        window.addEventListener('click', (e) => {
+            if (e.target === registerModal) {
+                hideModal('registerModal');
+            }
+            if (e.target === loginModal) {
+                hideModal('loginModal');
+            }
+            if (e.target === resetModal) {
+                hideModal('resetModal');
+            }
+            if (e.target === shareModal) {
+                hideModal('shareModal');
+            }
+        });
+
+        likeBtn.addEventListener('click', () => {
+            if (currentStation) {
+                toggleLike(currentStation.id);
+                
+                const likeIcon = likeBtn.querySelector('i');
+                if (likedStations.includes(currentStation.id)) {
+                    likeIcon.classList.remove('far');
+                    likeIcon.classList.add('fas');
+                    likeBtn.classList.add('active');
+                } else {
+                    likeIcon.classList.remove('fas');
+                    likeIcon.classList.add('far');
+                    likeBtn.classList.remove('active');
+                }
+            }
+        });
+
+        favoriteBtn.addEventListener('click', () => {
+            if (currentStation) {
+                toggleFavorite(currentStation.id);
+                
+                const favoriteIcon = favoriteBtn.querySelector('i');
+                if (favorites.includes(currentStation.id)) {
+                    favoriteIcon.classList.remove('far');
+                    favoriteIcon.classList.add('fas');
+                    favoriteBtn.classList.add('active');
+                } else {
+                    favoriteIcon.classList.remove('fas');
+                    favoriteIcon.classList.add('far');
+                    favoriteBtn.classList.remove('active');
+                }
+            }
+        });
+
+        shareBtn.addEventListener('click', () => {
+            if (currentStation) {
+                showModal('shareModal');
+            }
+        });
+
+        facebookBtn.addEventListener('click', () => openSocialMedia('facebook'));
+        twitterBtn.addEventListener('click', () => openSocialMedia('twitter'));
+        instagramBtn.addEventListener('click', () => openSocialMedia('instagram'));
+        youtubeBtn.addEventListener('click', () => openSocialMedia('youtube'));
+        websiteBtn.addEventListener('click', () => openSocialMedia('website'));
+
+        shareWhatsApp.addEventListener('click', () => shareStation('whatsapp'));
+        shareFacebook.addEventListener('click', () => shareStation('facebook'));
+        shareTwitter.addEventListener('click', () => shareStation('twitter'));
+
+        // Pagination buttons
+        prevPageBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                filterStations();
+                updatePageButtons();
+            }
+        });
+
+        nextPageBtn.addEventListener('click', () => {
+            const totalPages = Math.ceil(filteredStations.length / itemsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                filterStations();
+                updatePageButtons();
+            }
+        });
+
+        // Contact form submission
+        contactForm.addEventListener('submit', handleContactForm);
+
+        // Night mode toggle
+        nightModeBtn.addEventListener('click', toggleNightMode);
+
+        // Initialize the app
+        init();
+    </script>
+</body>
+</html>
